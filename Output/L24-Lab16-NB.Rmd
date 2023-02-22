@@ -1,0 +1,69 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Laboratorio 16 -Analisis de redes en R- Indicadores basicos globales
+
+Cargar libreria de EconGeo
+```{r}
+library(EconGeo)
+```
+
+Cargar data de las interaciones de los personajes de los miserables
+```{r}
+EL = read.csv("https://raw.githubusercontent.com/PABalland/ON/master/lesmis-el.csv")
+```
+
+Ver el encabezado
+```{r}
+head(EL)
+```
+
+Tranformar dataframe en matriz
+```{r}
+MM <- get.matrix(EL)
+```
+
+Visualizar matriz (la red es no dirigida porque si la doblara seria lo mismo)
+El ejemplo para distinguir entre matrices dirigidas y no dirigidas
+Twitter sigo a alguien pero ese alguien no me sigue (unidireccional)
+Facebook mando solicitud amistad y al aceptarme nos hacemos amigos (bidireccional)
+```{r}
+head(MM)
+```
+
+Llamar libreria para graficar
+```{r}
+library(igraph)
+```
+
+Crear objeto g para crear grafico proveniente del dataframe
+```{r}
+g <- graph_from_data_frame(d=EL, directed = FALSE)
+```
+
+Visualizar objeto grafico
+```{r}
+plot(g)
+```
+
+Eliminar el peso de la relacion
+```{r}
+EL$Weight = NULL
+```
+
+Visualizar resultado
+```{r}
+head(EL)
+```
+
+Cargar libreria para visualizaciones
+```{r}
+library(networkD3)
+```
+
+Generar grafico con networkD3. Este tipo de graficos pueden guardar como una pagina web
+```{r}
+simpleNetwork(EL)
+```

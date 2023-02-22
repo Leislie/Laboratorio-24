@@ -1,0 +1,68 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Laboratorio 9- T1_03_ESPACIO PRODUCTO(2) - RELACIONAMIENTO "CASO REAL": EXPORTACIONES HIDALGUENSES
+
+Objetivo: Estimar el relacionamiento (relatedness, proximidad, metrica de distancia entre productos)
+En este ejercicio vamos a:
+1. Cargar nuestra matriz de datos
+2. Calcular co ocurrencias entre lugares y productos 
+3. Estimar el relacionamiento, teniendo como input las co-ocurrencias
+4. Graficar
+5. Exportar los resultados para trabajarlos con cytoscape o gephi
+
+Primero llamar la libreria de EconGeo
+```{r}
+library (EconGeo)
+```
+
+Seleccionar el archivo desde la ruta del ordenador, utilizando el panel Data y el icono Import Dataset. Considerar el archivo como From Text (base). Seleccionar en Heading la opcion Yes en la pantalla que aparece y dar clic en Importar. Copiar la ruta que aparece en la consola una vez cargados los datos y pegar en read.csv ("RUTA"). Al correr el comando aparece la matriz en el panel Data
+```{r}
+M = as.matrix(
+  read.csv("rca_2014.csv" , 
+           sep = ",", 
+           header = T, 
+           row.names = 1))
+```
+
+Para visualizar los primeros 10 datos de la matriz y que es una matriz de 83X429
+```{r}
+head (M[,1:10])
+dim (M)
+```
+
+Ejecuta la co-ocurrencias en en este caso de los municipios (lugares)
+```{r}
+co.occurrence (M)
+```
+
+Para sacar la co-ocurrencia entre productos t debe ser transpuesta y crear un objeto denominado c
+```{r}
+c = co.occurrence (t(M))
+```
+
+Estima el relacionamiento o proximidad pero normalizado, para asegurar que el numero de co ocurrencias que observamos. Es mayor al numero de co ocurrencias probables (probailidad condicional)
+```{r}
+r = relatedness(c)
+```
+
+Teniendo el numero de co-ocurrencia hay que transformar a matriz binaria con el comando siguiente
+```{r}
+r[r<1] = 0
+r[r>1] = 1
+```
+
+Graficar en un primer momento aunque sera muy sucia
+```{r}
+library (igraph)
+g1 = graph_from_adjacency_matrix(r, mode = "undirected")
+plot(g1)
+```
+
+Exportar resultados del relacionamiento no binario
+```{r}
+write.csv (r, file="relatedness.csv")
+write.csv (c, file="cocurrences.csv")
+```

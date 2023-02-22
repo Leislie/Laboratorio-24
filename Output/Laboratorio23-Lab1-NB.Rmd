@@ -1,0 +1,98 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Laboratorio 1 - Analisis de redes en R - Algebra matricial
+
+Objetivo: Explorar las funciones de algebra lineal con un caso hipotetico
+
+En este ejercicio vamos a:
+1. Cargar nuestra matriz hipotetica de datos
+2. Hacer diversas operaciones matriciales
+3. Comprender el algoritmo base de las recomendaciones de AMAZON
+
+Cargamos la matriz. Es la estructura de red que AMAZON ocupa para hacer recomendaciones en base a tus compras actuales.
+```{r}
+M = as.matrix(
+  read.csv("https://raw.githubusercontent.com/PABalland/ON/master/amz.csv" , 
+           sep = ",", 
+           header = T, 
+           row.names = 1))
+```
+
+M enter para poder ver la matriz y dim(M) para dimensionar la matriz
+```{r}
+M
+dim(M)
+```
+
+Ver solo el vector de clientes que compran el producto "corbata" (producto de la columna 1)
+```{r}
+M[1:6, 1]
+```
+
+Ver solo un fragmento de la base original, en relacion a los dos productos que me interesan. Puede ser util para explorar clientes y productos
+```{r}
+M[1:6, 1:2]
+```
+
+Computar grado de centralidad, productos relacionados con las personas.
+```{r}
+rowSums (M)
+```
+
+Funcion util para enfocarnos en productos y no solo en clientes, matriz transpuesta
+```{r}
+t(M)
+```
+
+Suma de matrices
+```{r}
+M + M
+```
+
+Crear nuevo un objeto llamado x
+```{r}
+X = M + M
+```
+
+Matriz al cuadrado
+```{r}
+M ^ 2 
+```
+
+Multiplicacion de matrices
+```{r}
+M * M
+```
+
+Multiplicacion de matrices checar tamanos, solo pueda hacerla si el numero de columnas coincide con el numero de filas por eso primero reviso con dim. Checar tamano de la matriz -dim-
+```{r}
+M %*% t(M)
+```
+
+El algoritmo de recomendacion de AMAZON, hace basicamente lo anterior. Para tener el numero de veces que 2 productos han sido comprados por el mismo cliente. Identificar productos que van frecuentemente juntos (co ocurrencias par)
+```{r}
+t(M) %*% M
+```
+
+Similaridad de productos (de gustos) matriz de co ocurrencia de productos
+```{r}
+P = t(M) %*% M
+```
+
+No es una matriz identidad (como en la correlacion)
+```{r}
+diag (P) = 0
+```
+
+Similaridad de clientes - matriz de co ocurrencia de clienes
+```{r}
+C = M %*% t(M)
+```
+
+No es una matriz identidad (como en la correlacion)
+```{r}
+diag (C) = 0
+```

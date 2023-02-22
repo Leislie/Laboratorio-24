@@ -1,0 +1,48 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Laboratorio 20- Facting (romper un gráfico en varias dentro de una cuadrícula)
+
+Instala paquetería ggplot2
+install.packages("ggplot2")
+
+Llamar libreria de la paquetería ggplot2
+```{r}
+library(ggplot2)
+```
+
+Ubicar ruta de los datos a cargar datos
+```{r}
+file.choose()
+```
+
+Crear objeto con datos
+```{r}
+densidad_verde <- read.csv("PARA FACETING.csv")
+```
+
+Ver nombres dataframe
+```{r}
+names(densidad_verde)
+```
+
+Crear un gráfico (aes son elementos estéticos)
+```{r}
+p <- ggplot(data = densidad_verde,
+            mapping = aes(x = DENSITY,
+                          y = PCI.2018,
+                          color = Region)) +
+  geom_point()
+```
+
+Manipulando número de columnas
+```{r}
+p + facet_wrap(~ Region, ncol = 5)
+```
+
+Manipulando número de filas
+```{r}
+p + facet_wrap(~ Region, nrow = 3)
+```

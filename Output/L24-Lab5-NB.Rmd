@@ -1,0 +1,50 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Laboratorio 5- Pivotar a lo largo
+
+Prerrequisitos: instalar paquete tidyverse  y readr
+install.packages("tidyverse")
+install.packages("readr")
+
+Cargar paquete tidyverse y readr
+```{r}
+library(tidyverse)
+library(readr)
+```
+
+Cargar datos en environment seleccionar Import Dataset y seleccionar archivo en csv. Una vez verificado que la tabla cargo correctamente copiar codigo esquina inferior izquierda e importar datos. Pegar el codigo copiado y sustituir ICE_2014 por Tabla1
+```{r}
+library(readr)
+Tabla1 <- read_delim("ICE_2014.csv", 
+                       delim = ";", escape_double = FALSE, trim_ws = TRUE)
+```
+
+Permite ver la tabla
+```{r}
+head(Tabla1)
+```
+
+
+Permite ver todas las columnas
+```{r}
+names(Tabla1)
+```
+
+Pivotar tabla  "A LO LARGO"
+```{r}
+t1_PIVOTANTE = Tabla1 %>%
+  pivot_longer(cols = c("Ks,0" , "Ks,2" , "Ks,4" , "Ks,6" , "Ks,8" , "Ks,10" , "Ks,12" , "Ks,14" , "Ks,16" , "Ks,18" , "Ks,20" , "Ks,22" , "Ks,24" , "Ks,26"), names_to = "iteracion", values_to = "ranking")
+```
+
+Exportar resultado: tabla ordenada
+```{r}
+write.csv(t1_PIVOTANTE, file = "ice_CHARTICULATOR.csv")
+```
+
+Permite ver la ruta donde guardo el archivo
+```{r}
+getwd()
+```

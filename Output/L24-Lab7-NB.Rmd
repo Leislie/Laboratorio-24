@@ -1,0 +1,71 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Laboratorio 7 - Gestion de datos de red - curaduria de datos
+
+Objetivo: Explorar la organizacion de los datos
+En este ejercicio vamos a:
+1. Cargar nuestra matriz hipotetica de datos
+2. Transformar la matriz en un dataframe
+3. Conventir un dataframe en matriz
+
+Primero hay que instalar EconGeo
+install.packages("visNetwork")
+install.packages("htmlwidgets")
+install.packages("igraph")
+install.packages("reshape")
+install.packages("Matrix")
+install.packages("RSiena")
+install.packages("networkD3")
+install.packages("curl")
+install.packages("devtools")
+library(devtools)
+devtools::install_github("PABalland/EconGeo", force = T)
+
+Despues hay que llamar la libreria de EconGeo
+```{r}
+library (EconGeo)
+```
+
+Se llama a la matriz M con la que se ha trabajado
+```{r}
+M = as.matrix(
+  read.csv("https://raw.githubusercontent.com/PABalland/ON/master/amz.csv" , 
+           sep = ",", 
+           header = T, 
+           row.names = 1))
+```
+
+El comando ?RCA muestra a que se refiere la Ventaja Comparativa Revelada (VCR o RCA). La matriz de RCA es un ejemplo de matriz con personas y productos/ paises y productos-industrias
+```{r}
+?RCA
+```
+
+Este código cambia la estructura de la matriz a un listado (dataframe) conforme a lo solicitado: customer, product y count
+```{r}
+EL = get.list (M)
+colnames (EL) = c ("Customer", "Product", "Count")
+```
+
+Comando para convertir un dataframe (lista) en matriz, es decir regresamos al estado original de la matriz M
+```{r}
+MM = get.matrix (EL)
+```
+
+Al final EL es una edge list o lista de aristas o lista de adyacentes (source-target----adyacentes-mis 3 columnas)
+```{r}
+EL
+```
+
+Matriz adyacencia- Comando utilizado para pasar una edge list a una matriz de adyacencia. Buscar Andrea- Para observar que compro cada cliente ir a panel de datos y en el listado (dataframe) en busqueda colocar el nombre del cliente para observar que los productos y la Ventaja Comparativa Reveleada
+```{r}
+get.matrix (EL)
+```
+
+Genera el objeto x que crea una tabla (subset) que contiene el dataframe (listado) del producto denominado corbata (Tie)
+```{r}
+x = subset (EL, Product == "Tie")
+```
+

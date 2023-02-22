@@ -1,0 +1,52 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+CODIGO MODIFICADO EN DIA MARTES
+
+Laboratorio 0- Analisis de redes en R - Algebra matricial
+
+Objetivo: Explorar las funciones de algebra lineal con un caso hipotetico
+
+En este ejercicio vamos a:
+1. Cargar nuestra matriz hipotetica de datos
+2. Hacer diversas operaciones matriciales
+3. Comprender el algoritmo base de las recomendaciones de AMAZON
+
+Cargar la matriz
+```{r}
+M = as.matrix(
+  read.csv("https://raw.githubusercontent.com/PABalland/ON/master/amz.csv" , 
+           sep = ",", 
+           header = T, 
+           row.names = 1))
+```
+
+Es la estructura de red que AMAZON ocupa para hacer recomendaciones en base a tus compras actuales
+
+Ver solo el vector de clientes que compran el producto "corbata" (producto de la columna 1)
+
+Ver solo un fragmento de la base original, en relacion a los dos productos que me interesan. Puede ser util para explorar clientes y productos
+
+Computar grado de centralidad
+
+Funcion util para enfocarnos en productos y no solo en clientes
+
+Suma de matrices
+
+Crear nuevo un objeto llamado x
+
+Multiplicacion de matrices checar tamanos. Checar tamano de la matriz -dim-
+
+El algoritmo de recomendacion de AMAZON, hace basicamente lo anterior. Para tener el numero de veces que 2 productos han sido comprados por el mismo cliente. Identificar productos que van frecuentemente juntos (co ocurrencias par)
+
+Similaridad de productos (de gustos) matriz de co ocurrencia de productos
+
+No es una matriz identidad (como en la correlacion) 
+
+Similaridad de clientes - matriz de co ocurrencia de clienes
+
+No es una matriz identidad (como en la correlacion) 
